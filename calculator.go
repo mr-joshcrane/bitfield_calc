@@ -8,8 +8,8 @@ import (
 
 // Add takes two numbers and returns the result of adding them together.
 func Add(a float64, b ...float64) float64 {
-	for _, i := range b {
-		a += i
+	for _, v := range b {
+		a += v
 	}
 	return a
 }
@@ -17,26 +17,26 @@ func Add(a float64, b ...float64) float64 {
 // Subtract takes two numbers and returns the result of subtracting the second
 // from the first.
 func Subtract(a float64, b ...float64) float64 {
-	for _, i := range b {
-		a -= i
+	for _, v := range b {
+		a -= v
 	}
 	return a
 }
 
 // Subtract takes two numbers and returns the result of multiplying them.
 func Multiply(a float64, b ...float64) float64 {
-	for _, i := range b {
-		a *= i
+	for _, v := range b {
+		a *= v
 	}
 	return a
 }
 
 func Divide(a float64, b ...float64) (float64, error) {
-	for _, i := range b {
-		if i == 0 {
+	for _, v := range b {
+		if v == 0 {
 			return math.NaN(), errors.New("division by 0 not possible")
 		}
-		a /= i
+		a /= v
 	}
 
 	return a, nil
