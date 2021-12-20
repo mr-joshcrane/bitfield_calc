@@ -70,30 +70,42 @@ func TestMultiply(t *testing.T) {
 	}
 }
 
-func TestDivide(t *testing.T) {
+func TestDivideValidInput(t *testing.T) {
 	t.Parallel()
 	cases := []struct {
 		description string
 		a, b, want  float64
-		errExpected bool
 	}{
-		{description: "dividing by 1 returns a", a: 1, b: 1, want: 1, errExpected: false},
-		{description: "dividing small floats", a: 1.4, b: 1.2, want: 1.167, errExpected: false},
-		{description: "dividing by fraction is the same as multiplying by it's denominator", a: 1, b: 0.5, want: 2, errExpected: false},
-		{description: "dividing two negative numbers returns a positive number", a: -12, b: -6, want: 2, errExpected: false},
-		{description: "division by zero is illegal", a: 1, b: 0, want: -1, errExpected: true},
+		{description: "dividing by 1 returns a", a: 1, b: 1, want: 1},
+		{description: "dividing small floats", a: 1.4, b: 1.2, want: 1.167},
+		{description: "dividing by fraction is the same as multiplying by it's denominator", a: 1, b: 0.5, want: 2},
+		{description: "dividing two negative numbers returns a positive number", a: -12, b: -6, want: 2},
 	}
 	for _, tc := range cases {
 		i, err := calculator.Divide(tc.a, tc.b)
-		if tc.errExpected {
-			if err == nil {
-				t.Fatalf("expected divide to return an error, but did not!")
-			}
-		} else {
-			got := round(i, 3)
-			if tc.want != got {
-				t.Fatalf("Test case: %s: want %f, got %f", tc.description, tc.want, got)
-			}
+		if err != nil {
+			t.Fatalf("divide threw on valid input %f with error %t!", tc.a, err)
+		}
+		got := round(i, 3)
+		if tc.want != got {
+			t.Fatalf("Test case: %s: want %f, got %f", tc.description, tc.want, got)
+
+		}
+	}
+}
+
+func TestDivideInvalidInput(t *testing.T) {
+	t.Parallel()
+	cases := []struct {
+		description string
+		a, b  float64
+	}{
+		{description: "division by zero is illegal", a: 1, b: 0},
+	}
+	for _, tc := range cases {
+		_, err := calculator.Divide(tc.a, tc.b)
+		if err == nil {
+			t.Fatalf("expected divide to return an error, but did not!")
 		}
 	}
 }
