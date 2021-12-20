@@ -20,8 +20,8 @@ func TestAdd(t *testing.T) {
 		{description: "large integers", a: 4566584654, b: 654665465132, want: 659232049786},
 	}
 	for _, tc := range cases {
-		got := round(calculator.Add(tc.a, tc.b), 3)
-		if tc.want != got {
+		got := calculator.Add(tc.a, tc.b)
+		if !closeEnough(tc.want, got, 0.000001) {
 			t.Fatalf("Test case: %s: want %f, got %f", tc.description, tc.want, got)
 		}
 	}
@@ -42,8 +42,8 @@ func TestSubtract(t *testing.T) {
 		{description: "large integers", a: 4566584654, b: 654665465132, want: -650098880478},
 	}
 	for _, tc := range cases {
-		got := round(calculator.Subtract(tc.a, tc.b), 3)
-		if tc.want != got {
+		got := calculator.Subtract(tc.a, tc.b)
+		if !closeEnough(tc.want, got, 0.000001) {
 			t.Fatalf("Test case: %s: want %f, got %f", tc.description, tc.want, got)
 		}
 	}
@@ -63,8 +63,8 @@ func TestMultiply(t *testing.T) {
 		{description: "large integers", a: 4566584654, b: 654665465132, want: 2989585266575563292672},
 	}
 	for _, tc := range cases {
-		got := round(calculator.Multiply(tc.a, tc.b), 3)
-		if tc.want != got {
+		got := calculator.Multiply(tc.a, tc.b)
+		if !closeEnough(tc.want, got, 0.000001) {
 			t.Fatalf("Test case: %s: want %f, got %f", tc.description, tc.want, got)
 		}
 	}
@@ -77,17 +77,16 @@ func TestDivideValidInput(t *testing.T) {
 		a, b, want  float64
 	}{
 		{description: "dividing by 1 returns a", a: 1, b: 1, want: 1},
-		{description: "dividing small floats", a: 1.4, b: 1.2, want: 1.167},
+		{description: "dividing small floats", a: 1.4, b: 1.2, want: 1.166667},
 		{description: "dividing by fraction is the same as multiplying by it's denominator", a: 1, b: 0.5, want: 2},
 		{description: "dividing two negative numbers returns a positive number", a: -12, b: -6, want: 2},
 	}
 	for _, tc := range cases {
-		i, err := calculator.Divide(tc.a, tc.b)
+		got, err := calculator.Divide(tc.a, tc.b)
 		if err != nil {
 			t.Fatalf("divide threw on valid input %f with error %t!", tc.a, err)
 		}
-		got := round(i, 3)
-		if tc.want != got {
+		if !closeEnough(tc.want, got, 0.000001) {
 			t.Fatalf("Test case: %s: want %f, got %f", tc.description, tc.want, got)
 
 		}
@@ -147,28 +146,26 @@ func TestSqrt(t *testing.T) {
 		{description: "square root of 1 is 1", a: 1, want: 1, errExpected: false},
 		{description: "small nondecimal floats", a: 4, want: 2, errExpected: false},
 		{description: "larger non decimal floats", a: 1024, want: 32, errExpected: false},
-		{description: "nondecimal floats with non int sqrts", a: 33, want: 5.745, errExpected: false},
-		{description: "decimal floats with non int sqrts", a: 33.3, want: 5.771, errExpected: false},
+		{description: "nondecimal floats with non int sqrts", a: 33, want: 5.744563, errExpected: false},
+		{description: "decimal floats with non int sqrts", a: 33.3, want: 5.770615, errExpected: false},
 		{description: "square root of 0 is 0", a: 0, want: 0, errExpected: false},
 		{description: "cannot square root a negative number", a: -12, want: 0, errExpected: true},
 	}
 	for _, tc := range cases {
-		i, err := calculator.Sqrt(tc.a)
+		got, err := calculator.Sqrt(tc.a)
 		if tc.errExpected {
 			if err == nil {
 				t.Fatalf("expected sqrt to return an error, but did not!")
 			}
 		} else {
-			got := round(i, 3)
-			if tc.want != got {
+			if !closeEnough(tc.want, got, 0.000001) {
 				t.Fatalf("Test case: %s: want %f, got %f", tc.description, tc.want, got)
 			}
 		}
 	}
 }
 
-func round(i float64, precision int) float64 {
-	sigFigures := float64(math.Pow(10, float64(precision)))
-	rounded := math.Round(i*sigFigures) / sigFigures
-	return rounded
+func closeEnough(a, b, epsilon float64) bool {
+	diff := math.Abs(a - b)
+	return diff < epsilon
 }
