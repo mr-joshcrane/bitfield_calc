@@ -12,12 +12,12 @@ func TestAdd(t *testing.T) {
 		description string
 		a, b, want  float64
 	}{
-		{"adding small integers", 1, 1, 2},
-		{"small floats", 1.4, 1.2, 2.6},
-		{"negative integers", -1, -10, -11},
-		{"adding zero to integer returns original", 134, 0, 134},
-		{"negative integer plus positive integer", -12, 12, 0},
-		{"large integers", 4566584654, 654665465132, 659232049786},
+		{description: "adding small integers", a: 1, b: 1, want: 2},
+		{description: "small floats", a: 1.4, b: 1.2, want: 2.6},
+		{description: "negative integers", a: -1, b: -10, want: -11},
+		{description: "adding zero to integer returns original", a: 134, b: 0, want: 134},
+		{description: "negative integer plus positive integer", a: -12, b: 12, want: 0},
+		{description: "large integers", a: 4566584654, b: 654665465132, want: 659232049786},
 	}
 	for _, tc := range cases {
 		got := round(calculator.Add(tc.a, tc.b), 3)
@@ -34,12 +34,12 @@ func TestSubtract(t *testing.T) {
 		description string
 		a, b, want  float64
 	}{
-		{"subtracting small integers", 1, 1, 0},
-		{"small floats", 1.4, 1.2, 0.2},
-		{"negative integers", -1, -10, 9},
-		{"subtracting zero to integer returns original", 134, 0, 134},
-		{"negative integer minus positive integer", -12, 12, -24},
-		{"large integers", 4566584654, 654665465132, -650098880478},
+		{description: "subtracting small integers", a: 1, b: 1, want: 0},
+		{description: "small floats", a: 1.4, b: 1.2, want: 0.2},
+		{description: "negative integers", a: -1, b: -10, want: 9},
+		{description: "subtracting zero to integer returns original", a: 134, b: 0, want: 134},
+		{description: "negative integer minus positive integer", a: -12, b: 12, want: -24},
+		{description: "large integers", a: 4566584654, b: 654665465132, want: -650098880478},
 	}
 	for _, tc := range cases {
 		got := round(calculator.Subtract(tc.a, tc.b), 3)
@@ -55,12 +55,12 @@ func TestMultiply(t *testing.T) {
 		description string
 		a, b, want  float64
 	}{
-		{"identity function", 1, 1, 1},
-		{"small floats", 1.4, 1.2, 1.68},
-		{"multiplying negative integers is positive", -1, -10, 10},
-		{"multiplying by zero is 0", 134, 0, 0},
-		{"negative integer minus positive integer", -12, 12, -144},
-		{"large integers", 4566584654, 654665465132, 2989585266575563292672},
+		{description: "identity function", a: 1, b: 1, want: 1},
+		{description: "small floats", a: 1.4, b: 1.2, want: 1.68},
+		{description: "multiplying negative integers is positive", a: -1, b: -10, want: 10},
+		{description: "multiplying by zero is 0", a: 134, b: 0, want: 0},
+		{description: "negative integer minus positive integer", a: -12, b: 12, want: -144},
+		{description: "large integers", a: 4566584654, b: 654665465132, want: 2989585266575563292672},
 	}
 	for _, tc := range cases {
 		got := round(calculator.Multiply(tc.a, tc.b), 3)
@@ -77,11 +77,11 @@ func TestDivide(t *testing.T) {
 		a, b, want  float64
 		errExpected bool
 	}{
-		{"dividing by 1 returns a", 1, 1, 1, false},
-		{"dividing small floats", 1.4, 1.2, 1.167, false},
-		{"dividing by fraction is the same as multiplying by it's denominator", 1, 0.5, 2, false},
-		{"dividing two negative numbers returns a positive number", -12, -6, 2, false},
-		{"division by zero is illegal", 1, 0, -1, true},
+		{description: "dividing by 1 returns a", a: 1, b: 1, want: 1, errExpected: false},
+		{description: "dividing small floats", a: 1.4, b: 1.2, want: 1.167, errExpected: false},
+		{description: "dividing by fraction is the same as multiplying by it's denominator", a: 1, b: 0.5, want: 2, errExpected: false},
+		{description: "dividing two negative numbers returns a positive number", a: -12, b: -6, want: 2, errExpected: false},
+		{description: "division by zero is illegal", a: 1, b: 0, want: -1, errExpected: true},
 	}
 	for _, tc := range cases {
 		i, err := calculator.Divide(tc.a, tc.b)
@@ -132,13 +132,13 @@ func TestSqrt(t *testing.T) {
 		a, want     float64
 		errExpected bool
 	}{
-		{"square root of 1 is 1", 1, 1, false},
-		{"small nondecimal floats", 4, 2, false},
-		{"larger non decimal floats", 1024, 32, false},
-		{"nondecimal floats with non int sqrts", 33, 5.745, false},
-		{"decimal floats with non int sqrts", 33.3, 5.771, false},
-		{"square root of 0 is 0", 0, 0, false},
-		{"cannot square root a negative number", -12, 0, true},
+		{description: "square root of 1 is 1", a: 1, want: 1, errExpected: false},
+		{description: "small nondecimal floats", a: 4, want: 2, errExpected: false},
+		{description: "larger non decimal floats", a: 1024, want: 32, errExpected: false},
+		{description: "nondecimal floats with non int sqrts", a: 33, want: 5.745, errExpected: false},
+		{description: "decimal floats with non int sqrts", a: 33.3, want: 5.771, errExpected: false},
+		{description: "square root of 0 is 0", a: 0, want: 0, errExpected: false},
+		{description: "cannot square root a negative number", a: -12, want: 0, errExpected: true},
 	}
 	for _, tc := range cases {
 		i, err := calculator.Sqrt(tc.a)
