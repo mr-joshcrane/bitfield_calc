@@ -7,13 +7,12 @@ import (
 )
 
 func TestAdd(t *testing.T) {
-	type Case struct {
+	cases := []struct {
 		a           float64
 		b           float64
 		want        float64
 		description string
-	}
-	cases := []Case{
+	}{
 		{1, 1, 2, "adding small integers"},
 		{1.4, 1.2, 2.6, "small floats"},
 		{-1, -10, -11, "negative integers"},
@@ -32,13 +31,12 @@ func TestAdd(t *testing.T) {
 }
 
 func TestSubtract(t *testing.T) {
-	type Case struct {
+	cases := []struct{
 		a           float64
 		b           float64
 		want        float64
 		description string
-	}
-	cases := []Case{
+	}{
 		{1, 1, 0, "subtracting small integers"},
 		{1.4, 1.2, 0.2, "small floats"},
 		{-1, -10, 9, "negative integers"},
@@ -56,13 +54,12 @@ func TestSubtract(t *testing.T) {
 }
 
 func TestMultiply(t *testing.T) {
-	type Case struct {
+	cases := []struct {
 		a           float64
 		b           float64
 		want        float64
 		description string
-	}
-	cases := []Case{
+	}{
 		{1, 1, 1, "identity function"},
 		{1.4, 1.2, 1.68, "small floats"},
 		{-1, -10, 10, "multiplying negative integers is positive"},
@@ -80,15 +77,14 @@ func TestMultiply(t *testing.T) {
 }
 
 func TestDivide(t *testing.T) {
-	type Case struct {
+	t.Parallel()
+	cases := []struct {
 		a           float64
 		b           float64
 		want        float64
 		errExpected bool
 		description string
-	}
-	t.Parallel()
-	cases := []Case{
+	}{
 		{1, 1, 1, false, "dividing by 1 returns a"},
 		{1.4, 1.2, 1.167, false, "dividing small floats"},
 		{1, 0.5, 2, false, "dividing by fraction is the same as multiplying by it's denominator"},
@@ -138,14 +134,13 @@ func TestMultiInput(t *testing.T) {
 }
 
 func TestSqrt(t *testing.T) {
-	type Case struct {
+	t.Parallel()
+	cases := []struct {
 		a           float64
 		want        float64
 		errExpected bool
 		description string
-	}
-	t.Parallel()
-	cases := []Case{
+	}{
 		{1, 1, false, "square root of 1 is 1"},
 		{4, 2, false, "small nondecimal floats"},
 		{1024, 32, false, "larger non decimal floats"},
