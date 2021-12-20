@@ -6,12 +6,6 @@ import (
 	"testing"
 )
 
-func round(i float64, precision int) float64 {
-	sigFigures := float64(math.Pow(10, float64(precision)))
-	rounded := math.Round(i*sigFigures) / sigFigures
-	return rounded
-}
-
 func TestAdd(t *testing.T) {
 	type Case struct {
 		a           float64
@@ -99,7 +93,7 @@ func TestDivide(t *testing.T) {
 		{1.4, 1.2, 1.167, false, "dividing small floats"},
 		{1, 0.5, 2, false, "dividing by fraction is the same as multiplying by it's denominator"},
 		{-12, -6, 2, false, "dividing two negative numbers returns a positive number"},
-		{1, 0, 0, true, "division by zero is illegal"},
+		{1, 0, -1, true, "division by zero is illegal"},
 	}
 	for _, tc := range cases {
 		i, err := calculator.Divide(tc.a, tc.b)
@@ -173,4 +167,10 @@ func TestSqrt(t *testing.T) {
 			}
 		}
 	}
+}
+
+func round(i float64, precision int) float64 {
+	sigFigures := float64(math.Pow(10, float64(precision)))
+	rounded := math.Round(i*sigFigures) / sigFigures
+	return rounded
 }
