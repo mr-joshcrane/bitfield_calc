@@ -98,7 +98,7 @@ func TestDivideInvalidInput(t *testing.T) {
 	t.Parallel()
 	cases := []struct {
 		description string
-		a, b  float64
+		a, b        float64
 	}{
 		{description: "division by zero is illegal", a: 1, b: 0},
 	}
