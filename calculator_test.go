@@ -8,17 +8,15 @@ import (
 
 func TestAdd(t *testing.T) {
 	cases := []struct {
-		a           float64
-		b           float64
-		want        float64
 		description string
+		a, b, want  float64
 	}{
-		{1, 1, 2, "adding small integers"},
-		{1.4, 1.2, 2.6, "small floats"},
-		{-1, -10, -11, "negative integers"},
-		{134, 0, 134, "adding zero to integer returns original"},
-		{-12, 12, 0, "negative integer plus positive integer"},
-		{4566584654, 654665465132, 659232049786, "large integers"},
+		{"adding small integers", 1, 1, 2},
+		{"small floats", 1.4, 1.2, 2.6},
+		{"negative integers", -1, -10, -11},
+		{"adding zero to integer returns original", 134, 0, 134},
+		{"negative integer plus positive integer", -12, 12, 0},
+		{"large integers", 4566584654, 654665465132, 659232049786},
 	}
 	t.Parallel()
 	for _, tc := range cases {
@@ -31,18 +29,16 @@ func TestAdd(t *testing.T) {
 }
 
 func TestSubtract(t *testing.T) {
-	cases := []struct{
-		a           float64
-		b           float64
-		want        float64
+	cases := []struct {
 		description string
+		a, b, want  float64
 	}{
-		{1, 1, 0, "subtracting small integers"},
-		{1.4, 1.2, 0.2, "small floats"},
-		{-1, -10, 9, "negative integers"},
-		{134, 0, 134, "subtracting zero to integer returns original"},
-		{-12, 12, -24, "negative integer minus positive integer"},
-		{4566584654, 654665465132, -650098880478, "large integers"},
+		{"subtracting small integers", 1, 1, 0},
+		{"small floats", 1.4, 1.2, 0.2},
+		{"negative integers", -1, -10, 9},
+		{"subtracting zero to integer returns original", 134, 0, 134},
+		{"negative integer minus positive integer", -12, 12, -24},
+		{"large integers", 4566584654, 654665465132, -650098880478},
 	}
 	t.Parallel()
 	for _, tc := range cases {
@@ -55,17 +51,15 @@ func TestSubtract(t *testing.T) {
 
 func TestMultiply(t *testing.T) {
 	cases := []struct {
-		a           float64
-		b           float64
-		want        float64
 		description string
+		a, b, want  float64
 	}{
-		{1, 1, 1, "identity function"},
-		{1.4, 1.2, 1.68, "small floats"},
-		{-1, -10, 10, "multiplying negative integers is positive"},
-		{134, 0, 0, "multiplying by zero is 0"},
-		{-12, 12, -144, "negative integer minus positive integer"},
-		{4566584654, 654665465132, 2989585266575563292672, "large integers"},
+		{"identity function", 1, 1, 1},
+		{"small floats", 1.4, 1.2, 1.68},
+		{"multiplying negative integers is positive", -1, -10, 10},
+		{"multiplying by zero is 0", 134, 0, 0},
+		{"negative integer minus positive integer", -12, 12, -144},
+		{"large integers", 4566584654, 654665465132, 2989585266575563292672},
 	}
 	t.Parallel()
 	for _, tc := range cases {
@@ -79,17 +73,15 @@ func TestMultiply(t *testing.T) {
 func TestDivide(t *testing.T) {
 	t.Parallel()
 	cases := []struct {
-		a           float64
-		b           float64
-		want        float64
-		errExpected bool
 		description string
+		a, b, want  float64
+		errExpected bool
 	}{
-		{1, 1, 1, false, "dividing by 1 returns a"},
-		{1.4, 1.2, 1.167, false, "dividing small floats"},
-		{1, 0.5, 2, false, "dividing by fraction is the same as multiplying by it's denominator"},
-		{-12, -6, 2, false, "dividing two negative numbers returns a positive number"},
-		{1, 0, -1, true, "division by zero is illegal"},
+		{"dividing by 1 returns a", 1, 1, 1, false},
+		{"dividing small floats", 1.4, 1.2, 1.167, false},
+		{"dividing by fraction is the same as multiplying by it's denominator", 1, 0.5, 2, false},
+		{"dividing two negative numbers returns a positive number", -12, -6, 2, false},
+		{"division by zero is illegal", 1, 0, -1, true},
 	}
 	for _, tc := range cases {
 		i, err := calculator.Divide(tc.a, tc.b)
@@ -136,18 +128,17 @@ func TestMultiInput(t *testing.T) {
 func TestSqrt(t *testing.T) {
 	t.Parallel()
 	cases := []struct {
-		a           float64
-		want        float64
-		errExpected bool
 		description string
+		a, want     float64
+		errExpected bool
 	}{
-		{1, 1, false, "square root of 1 is 1"},
-		{4, 2, false, "small nondecimal floats"},
-		{1024, 32, false, "larger non decimal floats"},
-		{33, 5.745, false, "nondecimal floats with non int sqrts"},
-		{33.3, 5.771, false, "decimal floats with non int sqrts"},
-		{0, 0, false, "square root of 0 is 0"},
-		{-12, 0, true, "cannot square root a negative number"},
+		{"square root of 1 is 1", 1, 1, false},
+		{"small nondecimal floats", 4, 2, false},
+		{"larger non decimal floats", 1024, 32, false},
+		{"nondecimal floats with non int sqrts", 33, 5.745, false},
+		{"decimal floats with non int sqrts", 33.3, 5.771, false},
+		{"square root of 0 is 0", 0, 0, false},
+		{"cannot square root a negative number", -12, 0, true},
 	}
 	for _, tc := range cases {
 		i, err := calculator.Sqrt(tc.a)
