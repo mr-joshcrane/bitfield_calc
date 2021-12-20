@@ -34,7 +34,7 @@ func Multiply(a float64, b ...float64) float64 {
 func Divide(a float64, b ...float64) (float64, error) {
 	for _, v := range b {
 		if v == 0 {
-			return math.NaN(), errors.New("division by 0 not possible")
+			return 0, errors.New("division by 0 not possible")
 		}
 		a /= v
 	}
@@ -44,7 +44,7 @@ func Divide(a float64, b ...float64) (float64, error) {
 
 func Sqrt(a float64) (float64, error) {
 	if a < 0 {
-		return math.NaN(), errors.New("negative numbers do not have square roots")
+		return 0, errors.New("negative numbers do not have square roots")
 	}
 	return math.Sqrt(a), nil
 }
