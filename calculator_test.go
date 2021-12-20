@@ -7,6 +7,7 @@ import (
 )
 
 func TestAdd(t *testing.T) {
+	t.Parallel()
 	cases := []struct {
 		description string
 		a, b, want  float64
@@ -18,7 +19,6 @@ func TestAdd(t *testing.T) {
 		{"negative integer plus positive integer", -12, 12, 0},
 		{"large integers", 4566584654, 654665465132, 659232049786},
 	}
-	t.Parallel()
 	for _, tc := range cases {
 		got := round(calculator.Add(tc.a, tc.b), 3)
 		if tc.want != got {
@@ -29,6 +29,7 @@ func TestAdd(t *testing.T) {
 }
 
 func TestSubtract(t *testing.T) {
+	t.Parallel()
 	cases := []struct {
 		description string
 		a, b, want  float64
@@ -40,7 +41,6 @@ func TestSubtract(t *testing.T) {
 		{"negative integer minus positive integer", -12, 12, -24},
 		{"large integers", 4566584654, 654665465132, -650098880478},
 	}
-	t.Parallel()
 	for _, tc := range cases {
 		got := round(calculator.Subtract(tc.a, tc.b), 3)
 		if tc.want != got {
@@ -50,6 +50,7 @@ func TestSubtract(t *testing.T) {
 }
 
 func TestMultiply(t *testing.T) {
+	t.Parallel()
 	cases := []struct {
 		description string
 		a, b, want  float64
@@ -61,7 +62,6 @@ func TestMultiply(t *testing.T) {
 		{"negative integer minus positive integer", -12, 12, -144},
 		{"large integers", 4566584654, 654665465132, 2989585266575563292672},
 	}
-	t.Parallel()
 	for _, tc := range cases {
 		got := round(calculator.Multiply(tc.a, tc.b), 3)
 		if tc.want != got {
