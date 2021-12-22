@@ -7,39 +7,46 @@ import (
 )
 
 // Add takes two numbers and returns the result of adding them together.
-func Add(a float64, b ...float64) float64 {
-	for _, v := range b {
-		a += v
+func Add(a, b float64, c ...float64) float64 {
+	result := a + b
+	for _, v := range c {
+		result += v
 	}
-	return a
+	return result
 }
 
 // Subtract takes two numbers and returns the result of subtracting the second
 // from the first.
-func Subtract(a float64, b ...float64) float64 {
-	for _, v := range b {
-		a -= v
+func Subtract(a, b float64, c ...float64) float64 {
+	result := a - b
+	for _, v := range c {
+		result -= v
 	}
-	return a
+	return result
 }
 
 // Subtract takes two numbers and returns the result of multiplying them.
-func Multiply(a float64, b ...float64) float64 {
-	for _, v := range b {
-		a *= v
+func Multiply(a, b float64, c ...float64) float64 {
+	result := a * b
+	for _, v := range c {
+		result *= v
 	}
-	return a
+	return result
 }
 
-func Divide(a float64, b ...float64) (float64, error) {
-	for _, v := range b {
+func Divide(a, b float64, c ...float64) (float64, error) {
+	if b == 0 {
+		return 0, fmt.Errorf("bad input %b: division by 0 not possible", b)
+	}
+	result := a / b
+	for _, v := range c {
 		if v == 0 {
 			return 0, fmt.Errorf("bad input %b: division by 0 not possible", b)
 		}
-		a /= v
+		result /= v
 	}
 
-	return a, nil
+	return result, nil
 }
 
 func Sqrt(a float64) (float64, error) {
