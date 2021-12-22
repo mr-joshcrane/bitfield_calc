@@ -93,7 +93,7 @@ func TestDivideValidInput(t *testing.T) {
 	}
 }
 
-func TestDivideByZero(t *testing.T) {
+func TestDivideByZeroIsInvalid(t *testing.T) {
 	t.Parallel()
 	_, err := calculator.Divide(1, 0)
 	if err == nil {
