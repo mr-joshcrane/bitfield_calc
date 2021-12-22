@@ -95,17 +95,9 @@ func TestDivideValidInput(t *testing.T) {
 
 func TestDivideInvalidInput(t *testing.T) {
 	t.Parallel()
-	cases := []struct {
-		description string
-		a, b        float64
-	}{
-		{description: "division by zero is illegal", a: 1, b: 0},
-	}
-	for _, tc := range cases {
-		_, err := calculator.Divide(tc.a, tc.b)
-		if err == nil {
-			t.Fatalf("expected divide to return an error, but did not!")
-		}
+	_, err := calculator.Divide(1, 0)
+	if err == nil {
+		t.Fatalf("expected divide to return an error, but did not!")
 	}
 }
 
