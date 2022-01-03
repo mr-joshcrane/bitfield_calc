@@ -36,12 +36,12 @@ func Multiply(a, b float64, c ...float64) float64 {
 
 func Divide(a, b float64, c ...float64) (float64, error) {
 	if b == 0 {
-		return 0, fmt.Errorf("bad input %b: division by 0 not possible", b)
+		return 0, fmt.Errorf("bad input %v: division by 0 not possible", b)
 	}
 	result := a / b
 	for _, v := range c {
 		if v == 0 {
-			return 0, fmt.Errorf("bad input %b: division by 0 not possible", c)
+			return 0, fmt.Errorf("bad input %v: division by 0 not possible", c)
 		}
 		result /= v
 	}
