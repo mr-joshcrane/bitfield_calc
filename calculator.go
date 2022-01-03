@@ -2,49 +2,55 @@
 package calculator
 
 import (
-	"errors"
+	"fmt"
 	"math"
 )
 
 // Add takes two numbers and returns the result of adding them together.
-func Add(a float64, b ...float64) float64 {
-	for _, i := range b {
-		a += i
+func Add(a, b float64, c ...float64) float64 {
+	result := a + b
+	for _, v := range c {
+		result += v
 	}
-	return a
+	return result
 }
 
 // Subtract takes two numbers and returns the result of subtracting the second
 // from the first.
-func Subtract(a float64, b ...float64) float64 {
-	for _, i := range b {
-		a -= i
+func Subtract(a, b float64, c ...float64) float64 {
+	result := a - b
+	for _, v := range c {
+		result -= v
 	}
-	return a
+	return result
 }
 
 // Subtract takes two numbers and returns the result of multiplying them.
-func Multiply(a float64, b ...float64) float64 {
-	for _, i := range b {
-		a *= i
+func Multiply(a, b float64, c ...float64) float64 {
+	result := a * b
+	for _, v := range c {
+		result *= v
 	}
-	return a
+	return result
 }
 
-func Divide(a float64, b ...float64) (float64, error) {
-	for _, i := range b {
-		if i == 0 {
-			return math.NaN(), errors.New("division by 0 not possible")
-		}
-		a /= i
+func Divide(a, b float64, c ...float64) (float64, error) {
+	if b == 0 {
+		return 0, fmt.Errorf("bad input %v: division by 0 not possible", b)
 	}
-
-	return a, nil
+	result := a / b
+	for _, v := range c {
+		if v == 0 {
+			return 0, fmt.Errorf("bad input %v: division by 0 not possible", c)
+		}
+		result /= v
+	}
+	return result, nil
 }
 
 func Sqrt(a float64) (float64, error) {
 	if a < 0 {
-		return math.NaN(), errors.New("negative numbers do not have square roots")
+		return 0, fmt.Errorf("bad input %f: negative numbers do not have square roots", a)
 	}
 	return math.Sqrt(a), nil
 }
